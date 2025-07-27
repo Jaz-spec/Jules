@@ -1,0 +1,30 @@
+{
+  "name": "jules",
+  "version": "1.0.0",
+  "description": "A test for Jules",
+  "homepage": "https://github.com/Jaz-spec/Jules#readme",
+  "bugs": {
+    "url": "https://github.com/Jaz-spec/Jules/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaz-spec/Jules.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "accessibility:run": "tsx scripts/accessibility-runner.ts",
+    "accessibility:jules": "tsx scripts/accessibility-runner.ts",
+    "accessibility:cli": "tsx scripts/accessibility-cli.ts",
+    "a11y": "tsx scripts/accessibility-cli.ts"
+  },
+  "bin": {
+    "accessibility-cli": "./scripts/accessibility-cli.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0"
+  }
+}
