@@ -18,5 +18,20 @@
         "type": "Use Semantic Button",
         "description": "A `<div>` element is being used as a button. This is not accessible as it is not focusable with a keyboard by default and does not have the correct semantic meaning. Replace the `<div>` with a `<button>` element to ensure it is accessible to all users.",
         "prompt": "Replace the `<div>` element being used as a 'Submit' button with a semantic `<button>` element."
+    },
+    {
+        "type": "Add Link Text",
+        "description": "A link contains only an icon and has no accessible name. Screen readers may not be able to announce the purpose of the link. Add an 'aria-label' to the link to provide a descriptive name.",
+        "prompt": "Add an 'aria-label' to the settings link to describe its purpose."
+    },
+    {
+        "type": "Use Table Headers",
+        "description": "A table is using `<td>` elements for its headers instead of `<th>`. Semantic table headers (`<th>`) are crucial for screen reader users to understand the relationship between cells and headers.",
+        "prompt": "Convert the table header cells from `<td>` to `<th>` elements."
+    },
+    {
+        "type": "Improve Color Contrast",
+        "description": "Text in a paragraph has insufficient color contrast, making it difficult for users with visual impairments to read. Adjust the text color to meet WCAG AA contrast ratio guidelines.",
+        "prompt": "Fix the color contrast of the paragraph text to ensure it is readable."
     }
 ]
