@@ -113,10 +113,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
 
       // 2. Extract and return PR notes
       const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
-      if (notesMatch && notesMatch[0]) {
-        appendFileSync('PR.md', `"${notesMatch}"`)
-      }
-      return null;
+      appendFileSync('PR.md', `"${notesMatch}"`)
 
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file}. Reason:`);
