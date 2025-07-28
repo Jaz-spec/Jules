@@ -142,7 +142,7 @@ class AccessibilityCLI {
       console.log('📋 Creating pull request...');
       const prBody = readFileSync('PR.md', 'utf-8');
 
-      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body "${prBody}" --base ${this.currentBranch}`, { 
+      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file PR.md --base ${this.currentBranch}`, { 
         stdio: 'inherit' 
       });
       
