@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync, realpathSync } from 'fs';
+import { readFileSync, existsSync, realpathSync, writeFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 
 class AccessibilityCLI {
@@ -79,16 +79,27 @@ class AccessibilityCLI {
   private async runAccessibilityCheck(file: string, guidelines: string): Promise<void> {
     if (!existsSync(file)) return;
     
-    const prompt = `Based on the following accessibility guidelines, please review and fix any issues in the provided file. Apply the changes directly.\n\nGuidelines:\n${guidelines}`;
+    const fileContent = readFileSync(file, 'utf-8');
+    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block. Only output the corrected code, with no other text, explanations, or markdown formatting.\n\nGuidelines:\n${guidelines}\n\nCode:\nhtml\n${fileContent}\n`;
     
     try {
       console.log(`  Processing ${file}...`);
-      execSync(`gemini code --file "${file}" --apply`, {
-        input: prompt,
+      // Pass the combined prompt to gemini and capture the output
+      const fixedContent = execSync(`gemini -p "${prompt}" --yolo`, {
         stdio: 'pipe',
-        timeout: 60000
-      });
-      console.log(`  ✅ ${file}`);
+        timeout: 90000 // Increased timeout for generation
+      }).toString();
+
+      // Clean up the output to get only the code
+      const codeBlock = fixedContent.match(/```html\n([\s\S]*?)\n```/);
+      const finalContent = codeBlock ? codeBlock[1] : fixedContent;
+
+      if (finalContent.trim()) {
+        writeFileSync(file, finalContent);
+        console.log(`  ✅ ${file}`);
+      } else {
+        console.log(`  ⚠️  Skipped ${file} (Gemini returned empty content)`);
+      }
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file}. Reason:`);
       console.error(error.stderr.toString());
