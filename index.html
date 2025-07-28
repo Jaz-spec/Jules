@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Inaccessible Page</title>
+    <title>Accessible Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -10,56 +12,48 @@
     <p>This page is designed to have several accessibility issues for testing purposes.</p>
 
     <form>
-        <!-- Issue 1: Missing for attribute to link label to input -->
-        <label>First name:</label>
+        <label for="fname">First name:</label>
         <input type="text" id="fname" name="fname"><br><br>
 
-        <!-- Issue 2: Placeholder as a label -->
-        <input type="text" placeholder="Last name"><br><br>
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
 
-        <!-- Issue 3: Image without alt text -->
-        <img src="https://via.placeholder.com/40">
+        <img src="https://via.placeholder.com/40" alt="Placeholder image">
 
-        <!-- Issue 4: Using a div as a button -->
-        <div role="button" onclick="alert('Form submitted!')" style="cursor: pointer; padding: 5px; border: 1px solid black; display: inline-block;">
-            Submit
-        </div>
+        <button type="submit">Submit</button>
     </form>
 
     <hr>
 
-    <!-- Issue 5: Link with no text -->
-    <a href="/settings"><span>⚙️</span></a>
+    <a href="/settings" aria-label="Settings"><span>⚙️</span></a>
 
-    <!-- Issue 6: Table without headers -->
     <table>
-      <tr>
-        <td>Name</td>
-        <td>Age</td>
-      </tr>
-      <tr>
-        <td>John Doe</td>
-        <td>30</td>
-      </tr>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>30</td>
+        </tr>
+      </tbody>
     </table>
 
-    <!-- Issue 7: Insufficient color contrast -->
-    <p style="color: #ADADAD; background-color: #FFFFFF;">This text has poor color contrast.</p>
+    <p style="color: #000000; background-color: #FFFFFF;">This text has sufficient color contrast.</p>
 
     <hr>
 
-    <!-- Issue 8: Fieldset without a legend -->
     <fieldset>
+        <legend>User Information</legend>
         <label for="email">Email:</label>
-        <input type="email" id="email">
+        <input type="email" id="email" name="email">
     </fieldset>
 
-    <!-- Issue 9: Duplicate ID -->
-    <button id="submit-button">First Button</button>
-    <button id="submit-button">Second Button</button>
-
-    <!-- Issue 10: Marquee element -->
-    <marquee>This is a scrolling text that is very distracting!</marquee>
+    <button id="first-submit-button">First Button</button>
+    <button id="second-submit-button">Second Button</button>
 
 </body>
 </html>
