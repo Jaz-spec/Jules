@@ -96,7 +96,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
     
     try {
       console.log(`  Processing ${file}...`);
-      const fullOutput = execSync(`gemini --YOLO`, {
+      const fullOutput = execSync(`gemini --yolo`, {
         input: prompt,
         stdio: 'pipe',
         timeout: 90000 // timeout for generation
