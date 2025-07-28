@@ -91,7 +91,8 @@ class AccessibilityCLI {
       });
       console.log(`  ✅ ${file}`);
     } catch (error) {
-      console.log(`  ⚠️  Skipped ${file} (Gemini error)`);
+      console.log(`  ⚠️  Skipped ${file}. Reason:`);
+      console.error(error.stderr.toString());
     }
   }
 
