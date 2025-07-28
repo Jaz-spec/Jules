@@ -82,13 +82,9 @@ class AccessibilityCLI {
     const prompt = `Based on the following accessibility guidelines, please review and fix any issues in the provided file. Apply the changes directly.\n\nGuidelines:\n${guidelines}`;
     
     try {
-      execSync(`gemini`, {
-        stdio: 'pipe',
-      });
-      console.log("Gemini started");
       console.log(`  Processing ${file}...`);
       // Pass the prompt via stdin to the gemini command to avoid shell errors
-      execSync(`--file "${file}" --apply`, {
+      execSync(`gemini --file "${file}" --apply`, {
         input: prompt,
         stdio: 'pipe',
         timeout: 60000 // 60 second timeout per file
