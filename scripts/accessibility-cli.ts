@@ -90,9 +90,7 @@ class AccessibilityCLI {
     if (!existsSync(file)) return null;
     
     const fileContent = readFileSync(file, 'utf-8');
-    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block.
-First, output the complete, corrected code in a single HTML markdown block.
-After the code block, under the heading "## PR Notes for ${file}", list any changes that require manual review (like color contrast or content changes). If no manual changes are needed, write "No manual changes required." under the heading. Guidelines: ${guidelines} Code: html ${fileContent}`;
+    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block.\nFirst, output the complete, corrected code in a single HTML markdown block.\nAfter the code block, under the heading "## PR Notes for ${file}", list any changes that require manual review (like color contrast or content changes). If no manual changes are needed, write "No manual changes required." under the heading. Guidelines: ${guidelines} Code: html ${fileContent}`;
     
     try {
       console.log(`  Processing ${file}...`);
@@ -113,7 +111,10 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
 
       // 2. Extract and return PR notes
       const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
-      appendFileSync('PR.md', `"${notesMatch}"`)
+      if (notesMatch && notesMatch[0]) {
+        return notesMatch[0];
+      }
+      return null;
 
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file}. Reason:`);
@@ -155,7 +156,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
       console.log('📋 Creating pull request...');
 
       // Use --body-file to pass the content safely
-      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file FINAL_PR_BODY.md --base ${this.currentBranch}`, { 
+      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file PR.md --base ${this.currentBranch}`, { 
         stdio: 'inherit' 
       });
       
@@ -197,7 +198,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
       for (const file of relevantFiles) {
         const notes = await this.runAccessibilityCheck(file, guidelines);
         if (notes) {
-          appendFileSync('PR.md', notes);
+          appendFileSync('PR.md', notes + '\n\n');
         }
       }
 
