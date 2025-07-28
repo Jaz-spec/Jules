@@ -84,7 +84,7 @@ class AccessibilityCLI {
     try {
       console.log(`  Processing ${file}...`);
       // Pass the prompt via stdin to the gemini command to avoid shell errors
-      execSync(`gemini --file "${file}" --apply`, {
+      execSync(`gemini "${file}"`, {
         input: prompt,
         stdio: 'pipe',
         timeout: 60000 // 60 second timeout per file
