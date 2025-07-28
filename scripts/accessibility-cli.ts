@@ -83,10 +83,10 @@ class AccessibilityCLI {
     
     try {
       console.log(`  Processing ${file}...`);
-      // Pass the prompt via stdin to the gemini command to avoid shell errors
-      execSync(`gemini -p "${prompt}"`, {
-        input: file,
-        stdio: 'pipe'
+      execSync(`gemini code --file "${file}" --apply`, {
+        input: prompt,
+        stdio: 'pipe',
+        timeout: 60000
       });
       console.log(`  ✅ ${file}`);
     } catch (error) {
