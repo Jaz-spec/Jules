@@ -30,7 +30,7 @@ class AccessibilityCLI {
 
   private checkGeminiAuth(): void {
     try {
-      execSync('gemini --version', { stdio: 'pipe' });
+      execSync('codex --version', { stdio: 'pipe' });
       console.log('✅ Gemini CLI available');
     } catch (error) {
       console.error('❌ Gemini CLI not found. Install with: npm install -g @google/gemini-cli');
@@ -96,7 +96,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
     
     try {
       console.log(`  Processing ${file}...`);
-      const fullOutput = execSync(`gemini --yolo`, {
+      const fullOutput = execSync(`codex --auto-edit`, {
         input: prompt,
         stdio: 'pipe',
         timeout: 90000 // timeout for generation
