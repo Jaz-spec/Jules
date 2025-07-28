@@ -10,18 +10,14 @@
     <p>This page is designed to have several accessibility issues for testing purposes.</p>
 
     <form>
-        <!-- Issue 1: Missing for attribute to link label to input -->
         <label for="fname">First name:</label>
         <input type="text" id="fname" name="fname"><br><br>
 
-        <!-- Issue 2: Placeholder as a label -->
         <label for="lname">Last name:</label>
-        <input type="text" id="lname" placeholder="Last name"><br><br>
+        <input type="text" id="lname" name="lname"><br><br>
 
-        <!-- Issue 3: Image without alt text -->
         <img src="https://via.placeholder.com/40" alt="Placeholder image">
 
-        <!-- Issue 4: Using a div as a button -->
         <button type="button" onclick="alert('Form submitted!')">
             Submit
         </button>
@@ -29,10 +25,8 @@
 
     <hr>
 
-    <!-- Issue 5: Link with no text -->
     <a href="/settings" aria-label="Settings"><span>⚙️</span></a>
 
-    <!-- Issue 6: Table without headers -->
     <table>
       <thead>
         <tr>
@@ -48,23 +42,19 @@
       </tbody>
     </table>
 
-    <!-- Issue 7: Insufficient color contrast -->
     <p style="color: #ADADAD; background-color: #FFFFFF;">This text has poor color contrast.</p>
 
     <hr>
 
-    <!-- Issue 8: Fieldset without a legend -->
     <fieldset>
         <legend>Contact Information</legend>
         <label for="email">Email:</label>
         <input type="email" id="email">
     </fieldset>
 
-    <!-- Issue 9: Duplicate ID -->
     <button id="submit-button-1">First Button</button>
     <button id="submit-button-2">Second Button</button>
 
-    <!-- Issue 10: Marquee element -->
     <p>This is a scrolling text that is very distracting!</p>
 
 </body>
