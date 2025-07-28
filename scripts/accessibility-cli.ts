@@ -76,18 +76,6 @@ class AccessibilityCLI {
     return extensions.some(ext => fileName.endsWith(ext));
   }
 
-  private startGemini() {
-    try {
-      execSync('gemini', { 
-        stdio: 'pipe'
-      });
-      console.log('Gemini successfully started');
-      
-    } catch (error) {
-      console.log(`  ⚠️  Gemini error`);
-    }
-  }
-
   private async runAccessibilityCheck(file: string, guidelines: string): Promise<void> {
     if (!existsSync(file)) return;
     
@@ -95,12 +83,13 @@ class AccessibilityCLI {
     
     try {
       console.log(`  Processing ${file}...`);
-       execSync(`${prompt}`, { 
+      // Pass the prompt via stdin to the gemini command to avoid shell errors
+      execSync(`gemini code --file "${file}" --apply`, {
+        input: prompt,
         stdio: 'pipe',
         timeout: 60000 // 60 second timeout per file
-       });
-      console.log("File successfully edited")
-      
+      });
+      console.log(`  ✅ ${file}`);
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file} (Gemini error)`);
     }
@@ -190,7 +179,6 @@ Ready for review! 🚀
 
     try {
       console.log(`🔧 Running accessibility checks...`);
-      this.startGemini();
       for (const file of relevantFiles) {
         await this.runAccessibilityCheck(file, guidelines);
       }
