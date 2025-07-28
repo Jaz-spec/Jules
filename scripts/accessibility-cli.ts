@@ -83,7 +83,7 @@ class AccessibilityCLI {
     
     try {
       console.log(`  Processing ${file}...`);
-      execSync(`gemini code "${prompt}" --file "${file}" --apply`, { 
+      execSync(`gemini "${prompt}"`, { 
         stdio: 'pipe',
         timeout: 60000 // 60 second timeout per file
       });
