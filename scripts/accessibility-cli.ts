@@ -100,20 +100,20 @@ class AccessibilityCLI {
         timeout: 90000 // timeout for generation
       }).toString();
 
-      // // 1. Extract and write the code
-      // const codeBlockMatch = fullOutput.match(/```html\n([\s\S]*?)\n```/);
-      // if (codeBlockMatch && codeBlockMatch[1].trim()) {
-      //   writeFileSync(file, codeBlockMatch[1]);
-      //   console.log(`  ✅ ${file}`);
-      // } else {
-      //   console.log(`  ⚠️  Skipped ${file} (Gemini did not return a code block)`);
-      // }
+      // 1. Extract and write the code
+      const codeBlockMatch = fullOutput.match(/```html\n([\s\S]*?)\n```/);
+      if (codeBlockMatch && codeBlockMatch[1].trim()) {
+        writeFileSync(file, codeBlockMatch[1]);
+        console.log(`  ✅ ${file}`);
+      } else {
+        console.log(`  ⚠️  Skipped ${file} (Gemini did not return a code block)`);
+      }
 
-      // // 2. Extract and append PR notes
-      // const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
-      // if (notesMatch && notesMatch[0]) {
-      //   appendFileSync('PR.md', `${notesMatch[0]}\n\n`);
-      // }
+      // 2. Extract and append PR notes
+      const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
+      if (notesMatch && notesMatch[0]) {
+        appendFileSync('PR.md', `${notesMatch[0]}\n\n`);
+      }
 
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file}. Reason:`);
