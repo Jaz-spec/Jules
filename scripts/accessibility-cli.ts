@@ -160,7 +160,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
       // Combine the template and the generated notes into the final PR body
       const prTemplate = readFileSync('PR-template.md', 'utf-8');
       const prNotes = readFileSync('PR.md', 'utf-8');
-      const finalPRBody = `${prTemplate}\n\n## AI-Generated Notes\n\n${prNotes}`;
+      const finalPRBody = `${prNotes}`;
       writeFileSync('FINAL_PR_BODY.md', finalPRBody);
 
       // Use --body-file to pass the content safely
