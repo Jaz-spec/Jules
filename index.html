@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Inaccessible Page</title>
+    <title>Accessible Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
@@ -10,56 +12,60 @@
     <p>This page is designed to have several accessibility issues for testing purposes.</p>
 
     <form>
-        <!-- Issue 1: Missing for attribute to link label to input -->
-        <label>First name:</label>
+        <!-- Issue 1: Added for attribute to link label to input -->
+        <label for="fname">First name:</label>
         <input type="text" id="fname" name="fname"><br><br>
 
-        <!-- Issue 2: Placeholder as a label -->
-        <input type="text" placeholder="Last name"><br><br>
+        <!-- Issue 2: Replaced placeholder with a proper label -->
+        <label for="lname">Last name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
 
-        <!-- Issue 3: Image without alt text -->
-        <img src="https://via.placeholder.com/40">
+        <!-- Issue 3: Added descriptive alt text -->
+        <img src="https://via.placeholder.com/40" alt="Placeholder image">
 
-        <!-- Issue 4: Using a div as a button -->
-        <div role="button" onclick="alert('Form submitted!')" style="cursor: pointer; padding: 5px; border: 1px solid black; display: inline-block;">
-            Submit
-        </div>
+        <!-- Issue 4: Replaced div with a semantic button -->
+        <button type="submit">Submit</button>
     </form>
 
     <hr>
 
-    <!-- Issue 5: Link with no text -->
-    <a href="/settings"><span>⚙️</span></a>
+    <!-- Issue 5: Added aria-label for the icon-only link -->
+    <a href="/settings" aria-label="Settings"><span>⚙️</span></a>
 
-    <!-- Issue 6: Table without headers -->
+    <!-- Issue 6: Added table headers and scope -->
     <table>
-      <tr>
-        <td>Name</td>
-        <td>Age</td>
-      </tr>
-      <tr>
-        <td>John Doe</td>
-        <td>30</td>
-      </tr>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>30</td>
+        </tr>
+      </tbody>
     </table>
 
-    <!-- Issue 7: Insufficient color contrast -->
-    <p style="color: #ADADAD; background-color: #FFFFFF;">This text has poor color contrast.</p>
+    <!-- Issue 7: Improved color contrast -->
+    <p style="color: #000000; background-color: #FFFFFF;">This text has poor color contrast.</p>
 
     <hr>
 
-    <!-- Issue 8: Fieldset without a legend -->
+    <!-- Issue 8: Added a legend to the fieldset -->
     <fieldset>
+        <legend>Contact Information</legend>
         <label for="email">Email:</label>
         <input type="email" id="email">
     </fieldset>
 
-    <!-- Issue 9: Duplicate ID -->
-    <button id="submit-button">First Button</button>
-    <button id="submit-button">Second Button</button>
+    <!-- Issue 9: Fixed duplicate IDs -->
+    <button id="submit-button-1">First Button</button>
+    <button id="submit-button-2">Second Button</button>
 
-    <!-- Issue 10: Marquee element -->
-    <marquee>This is a scrolling text that is very distracting!</marquee>
+    <!-- Issue 10: Replaced marquee with a static p element -->
+    <p>This is a scrolling text that is very distracting!</p>
 
 </body>
 </html>
