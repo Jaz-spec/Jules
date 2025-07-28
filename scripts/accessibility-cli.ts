@@ -114,7 +114,7 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
       // 2. Extract and return PR notes
       const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
       if (notesMatch && notesMatch[0]) {
-        return `${notesMatch[0]}\n\n`;
+        appendFileSync('PR.md', `"${notesMatch}"`)
       }
       return null;
 
@@ -156,12 +156,6 @@ After the code block, under the heading "## PR Notes for ${file}", list any chan
   private createPR(): void {
     try {
       console.log('📋 Creating pull request...');
-      
-      // Combine the template and the generated notes into the final PR body
-      const prTemplate = readFileSync('PR-template.md', 'utf-8');
-      const prNotes = readFileSync('PR.md', 'utf-8');
-      const finalPRBody = `${prNotes}`;
-      writeFileSync('FINAL_PR_BODY.md', finalPRBody);
 
       // Use --body-file to pass the content safely
       execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file FINAL_PR_BODY.md --base ${this.currentBranch}`, { 
