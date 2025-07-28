@@ -86,11 +86,13 @@ class AccessibilityCLI {
     return extensions.some(ext => fileName.endsWith(ext));
   }
 
-  private async runAccessibilityCheck(file: string, guidelines: string): Promise<void> {
-    if (!existsSync(file)) return;
+  private async runAccessibilityCheck(file: string, guidelines: string): Promise<string | null> {
+    if (!existsSync(file)) return null;
     
     const fileContent = readFileSync(file, 'utf-8');
-    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block. First, output the complete, corrected code in a single HTML markdown block. After the code block, under the heading "## PR Notes for ${file}", list any changes that require manual review (like color contrast or content changes). If no manual changes are needed, write "No manual changes required." under the heading. Guidelines: ${guidelines} Code:html${fileContent}`;
+    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block.
+First, output the complete, corrected code in a single HTML markdown block.
+After the code block, under the heading "## PR Notes for ${file}", list any changes that require manual review (like color contrast or content changes). If no manual changes are needed, write "No manual changes required." under the heading. Guidelines: ${guidelines} Code: html ${fileContent}`;
     
     try {
       console.log(`  Processing ${file}...`);
@@ -109,15 +111,17 @@ class AccessibilityCLI {
         console.log(`  ⚠️  Skipped ${file} (Gemini did not return a code block)`);
       }
 
-      // 2. Extract and append PR notes
+      // 2. Extract and return PR notes
       const notesMatch = fullOutput.match(/## PR Notes for[\s\S]*/);
       if (notesMatch && notesMatch[0]) {
-        appendFileSync('PR.md', `${notesMatch[0]}\n\n`);
+        return `${notesMatch[0]}\n\n`;
       }
+      return null;
 
     } catch (error) {
       console.log(`  ⚠️  Skipped ${file}. Reason:`);
       console.error(error.stderr.toString());
+      return null;
     }
   }
 
@@ -152,9 +156,15 @@ class AccessibilityCLI {
   private createPR(): void {
     try {
       console.log('📋 Creating pull request...');
-      const prNotes = readFileSync('PR.md', 'utf-8').toString();
+      
+      // Combine the template and the generated notes into the final PR body
+      const prTemplate = readFileSync('PR-template.md', 'utf-8');
+      const prNotes = readFileSync('PR.md', 'utf-8');
+      const finalPRBody = `${prTemplate}\n\n## AI-Generated Notes\n\n${prNotes}`;
+      writeFileSync('FINAL_PR_BODY.md', finalPRBody);
 
-      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file PR.md --base ${this.currentBranch}`, { 
+      // Use --body-file to pass the content safely
+      execSync(`gh pr create --title "Automated Accessibility Improvements (Gemini CLI)" --body-file FINAL_PR_BODY.md --base ${this.currentBranch}`, { 
         stdio: 'inherit' 
       });
       
@@ -194,7 +204,10 @@ class AccessibilityCLI {
     try {
       console.log(`🔧 Running accessibility checks...`);
       for (const file of relevantFiles) {
-        await this.runAccessibilityCheck(file, guidelines);
+        const notes = await this.runAccessibilityCheck(file, guidelines);
+        if (notes) {
+          appendFileSync('PR.md', notes);
+        }
       }
 
       const hasChanges = this.commitChanges();
