@@ -80,12 +80,13 @@ class AccessibilityCLI {
     if (!existsSync(file)) return;
     
     const fileContent = readFileSync(file, 'utf-8');
-    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block. Only output the corrected code, with no other text, explanations, or markdown formatting.\n\nGuidelines:\n${guidelines}\n\nCode:\nhtml\n${fileContent}\n`;
+    const prompt = `Based on the following accessibility guidelines, please fix the issues in the provided code block. Only output the corrected code, with no other text, explanations, or markdown formatting.\n\nGuidelines:\n${guidelines}\n\nCode:\nhtml\n${fileContent}`;
     
     try {
       console.log(`  Processing ${file}...`);
-      // Pass the combined prompt to gemini and capture the output
-      const fixedContent = execSync(`gemini -p "${prompt}" --yolo`, {
+      // Pass the prompt via stdin to avoid shell syntax errors
+      const fixedContent = execSync(`gemini --yolo`, {
+        input: prompt,
         stdio: 'pipe',
         timeout: 90000 // Increased timeout for generation
       }).toString();
