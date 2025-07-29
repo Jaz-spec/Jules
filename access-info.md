@@ -1,3 +1,5 @@
+<!-- Note to developer: This is ideally a patterns sheet --> 
+
 # Web Accessibility Guidelines
 
 This document outlines the core accessibility principles to be applied across the codebase. The goal is to ensure all content is perceivable, operable, understandable, and robust for all users, including those with disabilities.
